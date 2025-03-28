@@ -3,13 +3,12 @@ from PIL import Image
 import google.generativeai as genai
 import io
 
-# Set up the Google Gemini API key
+# INPUT GOOGLE GEMINI API KEY HERE
 genai.configure(api_key="")
 
 def generate_caption(image_bytes):
     try:
         model = genai.GenerativeModel("gemini-1.5-flash")
-        # Pass the image data as a blob directly
         response = model.generate_content([{"mime_type": "image/png", "data": image_bytes}])
         return response.text
     except Exception as e:
@@ -22,11 +21,11 @@ def main():
     uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
     if uploaded_file is not None:
-        # Display the uploaded image
+       
         image = Image.open(uploaded_file)
         st.image(image, caption="Uploaded Image", use_column_width=True)
 
-        # Convert the image to bytes for the Gemini model
+        
         img_bytes = io.BytesIO()
         image.save(img_bytes, format="PNG")
         img_bytes = img_bytes.getvalue()
